@@ -1,0 +1,192 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Book - Add Contact</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/css/custom-styles.css">
+
+</head>
+
+<body>
+
+    <section class="subpage">
+        <header class="subpage-left">
+            <div class="sub-logo">
+                <img src="../static/images/logo.jpg" alt="">
+            </div>
+
+            <div class="header-bg">
+
+            </div>
+        </header>
+
+        <section class="subpage-right">
+
+            <!-- add contact -->
+
+            <div class="add-section">
+
+                <h1>Add to Contact Book</h1>
+
+                <form action="Save" method="Post" class="form-add">
+
+
+                    {%csrf_token%}
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="f-lt"><label for="cname">Contact Name</label></td>
+                            <td class="f-rt"><input type="text" id="cname" name="cname" placeholder="Contact Name" autofocus required/><br></td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td><label for="cnumber">Contact Number</label></td>
+                            <td><input type="text" id="cnumber" name="cnumber" placeholder="Contact Number" required/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <button type="submit" class="btn btn-save">Save</button>
+                            </td>
+
+
+                        </tr>
+                    </table>
+
+                    <div class="text-center bold" >
+                        {% for message in messages %}
+                        <span style="color: red; font-style: italic;">{{message}}</span>
+                        {% endfor %}
+                    </div>
+
+                    
+
+                </form>
+            </div>
+
+
+            
+            
+            
+            <!-- Display Contact-->
+            <div class="view-section">
+
+
+                <!-- Search -->
+
+                <div class="search">
+                    <form method="get" class="">
+
+                        <div class="search-form">
+                            <div class="search-name">
+                    
+                                {{ filter.form.name }}
+                            </div>
+                            <div class="search-mobile">
+                                {{ filter.form.contact_num }}
+                            </div>
+                            <div >
+                                <button class="search-btn" type="submit">Search</button>
+                            </div>
+                        </div>
+                    
+                        
+                    </form>
+                </div>
+
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Contact Name</th>
+                            <th scope="col">Contact Number</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for i in filter.qs %}
+
+                        <tr>
+                            <td>{{i.id}}</td>
+                            <td>{{i.name}}</td>
+                            <td>{{i.contact_num}}</td>
+                            <td>
+                                <a class="btn" href="/Edit/{{i.id}}">
+                                    <img src="../static/images/btn-edit.png" alt="" class="btn-edit">
+                                </a>
+                            </td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <a href="Del" class="btn deleteButton" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    <img src="../static/images/btn-delete.png" alt="" class="btn-delete">
+                                </a>
+                                
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" >Delete</h5>
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                        </div>
+                                        <div id="deleteModalLabel" class="modal-body">
+                                            
+                                            
+                                        Are You Sure Want To Delete!?
+                                        </div>
+                                        <form action="{% url 'contact:Del' %}" method="POST" >
+                                            {% csrf_token %}
+                                            <input type="hidden" name="delete_id" id="delete_id">
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                                <button type="submit" class="btn btn-primary" id="btn">Yes,Delete</button>
+                                            </div>
+                                        </form>
+                                        
+                                        
+                                        
+                                    </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- End Display-->
+
+
+            <!--  Back -->
+            <div class="back-section">
+                <a href="{% url 'contact:home' %}">
+                    <img src="../static/images/back-btn2.png" alt="" class="back-btn">
+                </a>
+            </div>
+
+        </section>
+    </section>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../static/js/modal.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/css/custom-styles.css">
+    <style>
+        h1{
+            color: #382b38;
+            text-align: center;
+            
+        }
+    </style>
+</head>
+<body>
+
+    <section class="subpage">
+        <header class="subpage-left">
+            <div class="sub-logo">
+                <img src="../static/images/logo.jpg" alt="">
+            </div>
+
+            <div class="header-bg">
+
+            </div>
+        </header>
+
+        <section class="subpage-right">
+
+        
+
+            <div class="update-section">
+
+                <h1>Update Contact</h1>
+
+                {{edit_form}}
+            <form action="/Update/{{contact.id}}" method="POST" class="form-update">
+                {%csrf_token%}
+
+                <table class="table table-borderless">
+                    <tr>
+                        <td class="f-lt">Contact Name:</td>
+                        <td class="f-rt"><input type="text" name="cname" value="{{contact.name}}" autofocus></td>
+                    </tr>
+
+                    <tr>
+                        <td>Contact Number</td>
+                        <td><input type="text" name="cnumber" value="{{contact.contact_num}}"></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button type="submit" class="btn btn-update">Update</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+                <!--  Back -->
+            <div class="back-section">
+                <a href="{% url 'contact:register' %}">
+                    <img src="../static/images/back-btn2.png" alt="" class="back-btn">
+                </a>
+            </div>
+		</section>
+    </section>
+
+
+            
+		
+
+
+        
+            
+        
+        
+ 
+        
+    </div>
+    
+</body>
+</html>
